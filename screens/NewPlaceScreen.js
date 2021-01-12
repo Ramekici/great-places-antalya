@@ -4,10 +4,13 @@ import {useDispatch} from 'react-redux'
 import * as placesActions from '../store/places-actions'
 
 import Colors from '../constants/Colors';
+import ImagePicker from '../components/ImageSelector';
+
 
 const NewPlacesScreen = (props) => {
 
     const [titleValue, setTitleValue] = useState('');
+    const [selectedImg, setSelectedImg] = useState();
     const dispatch = useDispatch()
 
     const titleChange = text => {
@@ -15,18 +18,24 @@ const NewPlacesScreen = (props) => {
     }
 
     const savePlaceHandler = () => {
-        dispatch(placesActions.addPlace(titleValue));
+        dispatch(placesActions.addPlace(titleValue, selectedImg));
         props.navigation.goBack();
+    }
+
+    const setImage = (img) => {
+        setSelectedImg(img)
     }
 
     return (
         <ScrollView>
             <View style={styles.form}>
-                <Text style={styles.label}> Title </Text>
+                <Text style={styles.label}> Başlık </Text>
                 <TextInput
                     style={styles.textInput}
                     onChangeText={titleChange}
                     value={titleValue} />
+                <ImagePicker 
+                    onImageTaken={setImage}/>
                 <Button 
                     title="Kaydet" 
                     color={Colors.primary} 
