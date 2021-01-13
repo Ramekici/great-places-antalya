@@ -26,7 +26,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "permissions":["AndroidManifest.xml"]
+      "permissions":["CAMERA","ACCESS_COARSE_LOCATION", "ACCESS_FINE_LOCATION", "FOREGROUND_SERVICE"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

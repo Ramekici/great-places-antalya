@@ -1,30 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback} from 'react';
 import { ScrollView, View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import {useDispatch} from 'react-redux'
 import * as placesActions from '../store/places-actions'
 
 import Colors from '../constants/Colors';
 import ImagePicker from '../components/ImageSelector';
+import LocationPicker from '../components/LocationPicker';
 
 
 const NewPlacesScreen = (props) => {
 
     const [titleValue, setTitleValue] = useState('');
     const [selectedImg, setSelectedImg] = useState();
+    const [selectedLocation, setSelectedLocation] = useState();
     const dispatch = useDispatch()
 
     const titleChange = text => {
         setTitleValue(text)
     }
 
+
+
     const savePlaceHandler = () => {
-        dispatch(placesActions.addPlace(titleValue, selectedImg));
+        
+        dispatch(placesActions.addPlace(titleValue, selectedImg, selectedLocation));
         props.navigation.goBack();
     }
 
     const setImage = (img) => {
         setSelectedImg(img)
     }
+
+    const locationPickedHandler = useCallback(
+        (location) => {
+            setSelectedLocation(location);
+        },[],
+    )
 
     return (
         <ScrollView>
@@ -36,6 +47,10 @@ const NewPlacesScreen = (props) => {
                     value={titleValue} />
                 <ImagePicker 
                     onImageTaken={setImage}/>
+                <LocationPicker 
+                    route={props.route}
+                    navigation = {props.navigation}
+                    onLocationPicked={locationPickedHandler}/>
                 <Button 
                     title="Kaydet" 
                     color={Colors.primary} 
